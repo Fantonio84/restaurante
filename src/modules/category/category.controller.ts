@@ -27,6 +27,55 @@ class CategoryController {
         return response.status(200).json(category);
     }
 
+    public async findById(request:Request, response:Response):Promise<Response>{
+        const { id } =request.params ?? {};
+        if(!id || typeof id !== "string"){
+            return response.status(400).json({
+                message: "Id invalido",
+            })
+        }
+        const category = await categoryService.findById(id);
+        return response.status(200).json(category);
+
+    }
+
+    public async update(request:Request, response:Response):Promise<Response>{
+        const { id } = request.params ?? {};
+        const { name, description, active} = request.body ?? {};
+
+        if(!id || typeof id !== "string"){
+            return response.status(400).json({
+                message: "Id invalido",
+            })
+        }
+
+        const category = await categoryService.update(id , {
+            name,
+            description,
+            active
+        });
+
+        return response.status(200).json(category);
+    }
+
+    public async delete(request:Request, response:Response):Promise<Response>{
+        const { id } = request.params ?? {};
+        if(!id || typeof id !== "string"){
+            return response.status(400).json({
+                message: "Id invalido",
+            })
+        }
+
+        await categoryService.delete(id);
+
+        return response.status(200).json({
+            message:"Categoria deletada com sucesso"
+        })
+    
+    }
+
+    
+
 }
 
 export default new CategoryController();

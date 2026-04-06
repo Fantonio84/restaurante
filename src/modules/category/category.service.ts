@@ -40,6 +40,21 @@ class CategoryService {
 
     }
 
+    public async findById(id:string) {
+        return await Category.findById(id);
+
+    }
+    public async update(id: string, data: IUpdateCategoryDTO){
+        return await Category.findByIdAndUpdate(id, data, {
+            new: true,
+            runValidators:true,
+        })
+    }
+
+    public async delete (id: string){
+        return await Category.findByIdAndDelete(id)
+    }
+
 
 }
 
